@@ -11,8 +11,49 @@
     <style>
         /* Animation Classes */
         .anim-hidden { opacity: 0; } /* Will be handled by JS */
-
+        
         @keyframes blink { 50% { opacity: 0; } }
+
+        /* New Effects CSS */
+        .progress-bar {
+            position: fixed;
+            top: 0; left: 0;
+            height: 4px;
+            background: var(--primary);
+            width: 0%;
+            z-index: 9999;
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        .scan-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
+        }
+        .laser-line {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 2px;
+            background: #ef4444;
+            box-shadow: 0 0 15px #ef4444, 0 0 5px white;
+            z-index: 10;
+            opacity: 0;
+        }
+
+        .matrix-canvas {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            opacity: 0.3;
+            pointer-events: none;
+            border-radius: 12px;
+        }
+
+        .tilt-card {
+            transform-style: preserve-3d;
+            transition: transform 0.1s;
+        }
 
         :root {
             --primary: #0ea5e9;
@@ -135,6 +176,7 @@
     </style>
 </head>
 <body>
+    <div class="progress-bar"></div>
 
     <!-- SLIDE 1: PORTADA INTEGRADA -->
     <div class="slide" style="justify-content: center;">
@@ -283,7 +325,7 @@
         <h2 style="font-size: 40px; margin-bottom: 30px;">Procesamiento <span class="accent">Inteligente</span></h2>
         <div class="content-grid">
             <div class="terminal-prompt">
-                "Identificar 10 refinerías clave en TX. Evaluar 'Cross-Border Synergy Score' para crudo Merey. Correlacionar 'Transition Risk' y 'Sovereign Stability' en VEN Q1-2026. Analizar impacto de licencias OFAC en transferencia de hardware avanzado para Paraguaná."
+                <span class="typewriter-target">"Identificar 10 refinerías clave en TX. Evaluar 'Cross-Border Synergy Score' para crudo Merey. Correlacionar 'Transition Risk' y 'Sovereign Stability' en VEN Q1-2026. Analizar impacto de licencias OFAC en transferencia de hardware avanzado para Paraguaná."</span>
             </div>
             <div>
                 <ul style="list-style: none;">
@@ -341,7 +383,9 @@
 </html>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-
+        
+        // --- ANIMATION CONFIG & HELPERS ---
+        
         // Helper to wrap letters for stagger effect
         const wrapLetters = (el) => {
             el.innerHTML = el.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
@@ -353,7 +397,7 @@
 
         // 1. Setup Initial States via JS (to avoid CSS issues if JS fails)
         const slides = document.querySelectorAll('.slide');
-
+        
         // Add specific classes for targeting if they don't exist
         slides.forEach((slide, index) => {
             slide.dataset.index = index;
@@ -361,7 +405,7 @@
             slide.style.transform = 'translateY(30px)';
         });
 
-        // 2. Intersection Observer
+        // 2. Intersection Observer for Main Animations
         const observerOptions = {
             threshold: 0.2 // Trigger when 20% of slide is visible
         };
@@ -371,7 +415,7 @@
                 if (entry.isIntersecting) {
                     const slide = entry.target;
                     const index = parseInt(slide.dataset.index);
-
+                    
                     // Stop observing once animated
                     observer.unobserve(slide);
 
@@ -384,7 +428,7 @@
                         duration: 1000,
                         delay: 100
                     });
-
+                    
                     // Trigger specific animations based on slide content/index
                     animateSlideContent(slide, index);
                 }
@@ -395,16 +439,15 @@
 
         // Main Animation Router
         function animateSlideContent(slide, index) {
-
+            
             // 2. Hero Title (Slide 1 - Index 0)
             if (index === 0) {
                 const title = slide.querySelector('.title-hero');
                 if (title) {
                     // Wrap letters for animation manually or split by words
-                    // Simple word stagger for robust display
                     const words = title.innerText.split(' ').map(w => `<span class='word' style='display:inline-block; opacity:0; transform:translateY(-20px)'>${w}&nbsp;</span>`).join('');
                     title.innerHTML = words;
-
+                    
                     anime({
                         targets: title.querySelectorAll('.word'),
                         opacity: [0, 1],
@@ -427,7 +470,7 @@
                     easing: 'easeInOutSine'
                 });
             }
-
+            
             // 3. Number Counter (Slide 2)
             const numberEl = slide.querySelector('.big-number');
             if (numberEl && numberEl.innerText.includes('$1.8M')) {
@@ -450,7 +493,7 @@
             if (lists.length > 0) {
                 // Set initial state
                 lists.forEach(li => { li.style.opacity = 0; li.style.transform = 'translateX(50px)'; });
-
+                
                 anime({
                     targets: lists,
                     opacity: [0, 1],
@@ -466,7 +509,7 @@
                 bars.forEach(bar => {
                     const targetHeight = bar.style.height; // Capture inline style
                     bar.style.height = '0%'; // Reset to 0
-
+                    
                     anime({
                         targets: bar,
                         height: [0, targetHeight],
@@ -478,10 +521,6 @@
             }
 
             // 8. State Cards (Slide 6)
-            const stateCards = slide.querySelectorAll('.slide > div > div > div[style*="background: var(--slate-100)"]');
-            // The selector above is tricky, looking at structure: div.slide -> div (grid) -> div (card)
-            // Let's refine selector based on content: text-align: center inside grid
-            // Better to select the direct children of the grid container in Slide 6
             if (index === 5) { // Slide 6 is index 5
                  const gridContainer = slide.querySelector('div[style*="grid-template-columns: repeat(5, 1fr)"]');
                  if (gridContainer) {
@@ -493,26 +532,25 @@
                          delay: anime.stagger(150, {start: 500}),
                          easing: 'easeOutBack'
                      });
-                     // Set initial styles for these manually before animation triggers?
-                     // Since we are here, we can set them in anime 'from' values usually,
-                     // but opacity should be 0 before this function runs to avoid flash.
-                     // I will handle this in the "Setup Initial States" section for robust code.
                  }
             }
 
             // 6. Terminal Typewriter (Slide 7)
-            const terminal = slide.querySelector('.terminal-prompt');
-            if (terminal) {
-                const text = terminal.innerText;
-                terminal.innerHTML = ''; // Clear text
-                terminal.style.opacity = 1; // Make container visible
-
+            // UPDATED to target span and NOT clear the parent (which contains Matrix canvas)
+            const terminalWrapper = slide.querySelector('.typewriter-target');
+            if (terminalWrapper) {
+                const text = terminalWrapper.innerText;
+                terminalWrapper.innerHTML = ''; // Clear text inside span
+                terminalWrapper.style.opacity = 1; 
+                terminalWrapper.style.position = 'relative';
+                terminalWrapper.style.zIndex = '2'; // Above canvas
+                
                 // Create a cursor
                 const cursor = document.createElement('span');
                 cursor.innerText = '|';
-                cursor.style.animation = 'blink 1s infinite';
-                terminal.appendChild(cursor);
-
+                cursor.style.animation = 'blink 1s infinite'; 
+                terminalWrapper.appendChild(cursor);
+                
                 let i = 0;
                 const typeInterval = setInterval(() => {
                     if (i < text.length) {
@@ -541,7 +579,6 @@
             }
 
             // 9. Pulse Button (Slide 9)
-            // Look for the "DEPLOY DIGITAL BRIDGE" div
             if (index === 8) { // Last slide
                 const button = Array.from(slide.querySelectorAll('div')).find(el => el.textContent.includes('DEPLOY DIGITAL BRIDGE'));
                 if (button) {
@@ -556,6 +593,173 @@
                     });
                 }
             }
+        }
+
+        // --- GLOBAL SCROLL FEATURES ---
+
+        // 11. Progress Bar
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.body.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            document.querySelector('.progress-bar').style.width = scrollPercent + '%';
+        });
+
+        // 14. Background Color Transition
+        const bgObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const slideContent = entry.target.innerHTML;
+                    let targetColor = '#f1f5f9'; // slate-100 default
+
+                    if (slideContent.includes('$1.8M')) { // Slide 2
+                        targetColor = '#ecfdf5'; // light green
+                    } else if (slideContent.includes('RIESGO:')) { // Slide 3
+                        targetColor = '#fff1f2'; // light red
+                    } else if (slideContent.includes('Digital Bridge')) { // Slide 4
+                        targetColor = '#f0f9ff'; // light blue
+                    }
+
+                    anime({
+                        targets: 'body',
+                        backgroundColor: targetColor,
+                        duration: 1000,
+                        easing: 'linear'
+                    });
+                }
+            });
+        }, { threshold: 0.5 }); // Trigger when 50% visible
+
+        document.querySelectorAll('.slide').forEach(slide => bgObserver.observe(slide));
+
+        // --- INTERACTIVE MOUSE EFFECTS ---
+
+        // 1. 3D Tilt Effect
+        const tiltElements = document.querySelectorAll('.stat-card, .slide:nth-child(6) > div > div > div'); 
+        
+        tiltElements.forEach(el => {
+            el.classList.add('tilt-card');
+            el.parentElement.style.perspective = '1000px'; 
+            
+            el.addEventListener('mousemove', (e) => {
+                const rect = el.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                // Calculate rotation (-10 to 10 deg)
+                const xRot = -1 * ((y - rect.height/2) / rect.height * 20);
+                const yRot = (x - rect.width/2) / rect.width * 20;
+                
+                el.style.transform = `rotateX(${xRot}deg) rotateY(${yRot}deg) scale(1.02)`;
+            });
+            
+            el.addEventListener('mouseleave', () => {
+                el.style.transform = 'rotateX(0) rotateY(0) scale(1)';
+            });
+        });
+
+        // --- VISUAL EFFECTS ---
+
+        // 6. Slot Machine / Decoding Effect
+        const decodeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const cells = entry.target.querySelectorAll('td:not(.decoding-done)');
+                    
+                    cells.forEach(cell => {
+                        const originalText = cell.innerText;
+                        if(!originalText.trim()) return;
+                        
+                        cell.classList.add('decoding-done');
+                        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                        
+                        let iterations = 0;
+                        const interval = setInterval(() => {
+                            cell.innerText = originalText.split('')
+                                .map((letter, index) => {
+                                    if(index < iterations) {
+                                        return originalText[index];
+                                    }
+                                    return chars[Math.floor(Math.random() * 36)];
+                                })
+                                .join('');
+                            
+                            if(iterations >= originalText.length) {
+                                clearInterval(interval);
+                            }
+                            iterations += 1/3; // Speed of decoding
+                        }, 30);
+                    });
+                    decodeObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        document.querySelectorAll('.matrix-table').forEach(table => decodeObserver.observe(table));
+
+
+        // 7. Laser Scan (Slide 3)
+        const logImg = document.querySelector('img[alt="Logística Petrolera"]');
+        if (logImg) {
+            // Wrap image in container
+            const wrapper = document.createElement('div');
+            wrapper.classList.add('scan-container');
+            logImg.parentNode.insertBefore(wrapper, logImg);
+            wrapper.appendChild(logImg);
+            
+            // Add laser line
+            const laser = document.createElement('div');
+            laser.classList.add('laser-line');
+            wrapper.appendChild(laser);
+            
+            // Animate
+            anime({
+                targets: laser,
+                top: ['0%', '100%'],
+                opacity: [0.8, 0.8], // Keep visible
+                easing: 'easeInOutSine',
+                duration: 2500,
+                loop: true,
+                direction: 'alternate'
+            });
+        }
+
+        // 15. Matrix Rain (Slide 7)
+        const terminal = document.querySelector('.terminal-prompt');
+        if (terminal) {
+            const canvas = document.createElement('canvas');
+            canvas.classList.add('matrix-canvas');
+            terminal.appendChild(canvas); 
+            
+            const ctx = canvas.getContext('2d');
+            let width = canvas.width = terminal.offsetWidth;
+            let height = canvas.height = terminal.offsetHeight;
+            
+            const cols = Math.floor(width / 20);
+            const ypos = Array(cols).fill(0);
+            
+            function matrix() {
+                ctx.fillStyle = '#0001'; // Fade trail
+                ctx.fillRect(0, 0, width, height);
+                
+                ctx.fillStyle = '#0f0';
+                ctx.font = '10pt monospace';
+                
+                ypos.forEach((y, ind) => {
+                    const text = String.fromCharCode(Math.random() * 128);
+                    const x = ind * 20;
+                    ctx.fillText(text, x, y);
+                    if (y > 100 + Math.random() * 10000) ypos[ind] = 0;
+                    else ypos[ind] = y + 20;
+                });
+            }
+            
+            setInterval(matrix, 50);
+            
+            window.addEventListener('resize', () => {
+                 width = canvas.width = terminal.offsetWidth;
+                 height = canvas.height = terminal.offsetHeight;
+            });
         }
     });
 </script>

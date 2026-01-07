@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Falcon Plant Resources - Global Strategy 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;700;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0ea5e9;
+            --primary-dark: #0369a1;
+            --slate-900: #0f172a;
+            --slate-600: #475569;
+            --slate-100: #f1f5f9;
+            --white: #ffffff;
+            --accent-green: #22c55e;
+            --danger: #ef4444;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            background-color: var(--slate-100);
+            font-family: 'Inter', sans-serif;
+            color: var(--slate-900);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 60px;
+            padding: 80px 0;
+        }
+
+        .slide {
+            width: 1280px;
+            height: 720px;
+            background: var(--white);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            padding: 70px 80px;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.1);
+            border-radius: 12px;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: radial-gradient(var(--slate-100) 2px, transparent 2px);
+            background-size: 35px 35px;
+            opacity: 0.8;
+            z-index: 0;
+        }
+
+        .slide > * { position: relative; z-index: 1; }
+
+        .logo-corner {
+            position: absolute;
+            top: 40px;
+            right: 80px;
+            height: 70px;
+            z-index: 10;
+        }
+        .logo-corner img { height: 100%; object-fit: contain; }
+
+        h1, h2, h3, h4 { font-family: 'Urbanist', sans-serif; text-transform: uppercase; }
+        
+        .title-hero { font-size: 75px; font-weight: 800; line-height: 0.95; color: var(--slate-900); }
+        .accent { color: var(--primary); }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 30px;
+            align-items: center;
+        }
+
+        .stat-card {
+            background: var(--slate-100);
+            padding: 30px;
+            border-radius: 16px;
+            border-left: 8px solid var(--primary);
+        }
+        .big-number { font-size: 70px; font-weight: 800; color: var(--primary-dark); display: block; line-height: 1; }
+        
+        .matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            font-size: 13px;
+        }
+        .matrix-table th { background: var(--slate-900); color: white; padding: 12px; text-align: left; }
+        .matrix-table td { padding: 10px 12px; border-bottom: 1px solid var(--slate-100); }
+        .matrix-table .highlight-col { background: rgba(14, 165, 233, 0.05); font-weight: 600; border-left: 3px solid var(--primary); }
+
+        .terminal-prompt {
+            background: #020617;
+            color: #38bdf8;
+            padding: 25px;
+            border-radius: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 15px;
+            border: 1px solid #1e293b;
+            position: relative;
+        }
+        .terminal-prompt::after {
+            content: "UNIFIED MASTER PROMPT - GEOQUANT";
+            position: absolute;
+            top: -12px; right: 20px;
+            background: var(--primary); color: white;
+            padding: 2px 10px; font-size: 10px; font-weight: 800; border-radius: 4px;
+        }
+
+        .footer-tag {
+            position: absolute; bottom: 30px; left: 80px;
+            font-size: 11px; color: var(--slate-600); font-weight: 700; letter-spacing: 2px;
+        }
+
+        /* DEA Chart */
+        .chart-dea { display: flex; align-items: flex-end; justify-content: space-around; height: 220px; padding: 20px; border-bottom: 2px solid var(--slate-100); }
+        .bar-dea { width: 80px; border-radius: 6px 6px 0 0; position: relative; }
+        .bar-label { position: absolute; bottom: -30px; width: 100%; text-align: center; font-weight: 800; font-size: 11px; }
+    </style>
+</head>
+<body>
+
+    <!-- SLIDE 1: PORTADA INTEGRADA -->
+    <div class="slide" style="justify-content: center;">
+        <div style="max-width: 900px;">
+            <img src="https://lh3.googleusercontent.com/u/0/d/1wJB75bNrKI6jSsOxDrtE4Heo9HbAvOJY" alt="Falcon Logo" style="height: 160px; margin-bottom: 40px;">
+            <h1 class="title-hero">THE GLOBAL<br><span class="accent">BRIDGE 2026</span></h1>
+            <p style="font-size: 28px; color: var(--slate-600); margin-top: 20px; font-weight: 300;">Arquitectura de Unificación Texas-Venezuela impulsada por IA, ML y Arbitraje Geopolítico.</p>
+        </div>
+        <div class="footer-tag">FALCON PLANT RESOURCES // ESTRATEGIA DE LIDERAZGO INDISCUTIBLE</div>
+    </div>
+
+    <!-- SLIDE 2: EL MOTOR FINANCIERO ($1.8M DIARIOS) -->
+    <div class="slide">
+        <div class="logo-corner"><img src="https://lh3.googleusercontent.com/u/0/d/1wJB75bNrKI6jSsOxDrtE4Heo9HbAvOJY" alt="Logo"></div>
+        <h2 style="font-size: 45px; margin-bottom: 40px;">El Lenguaje del Beneficio</h2>
+        <div class="content-grid">
+            <div class="stat-card">
+                <span class="big-number">$1.8M</span>
+                <span style="font-weight: 800; color: var(--slate-600); letter-spacing: 1px;">MARGEN BRUTO DIARIO</span>
+                <p style="margin-top: 15px; font-size: 18px;">Basado en el descuento de <strong>$18 USD/BBL</strong> del crudo Merey 16 vs WTI. Captura de arbitraje mediante procesamiento inteligente.</p>
+            </div>
+            <div>
+                <ul style="list-style: none;">
+                    <li style="margin-bottom: 20px; display: flex; gap: 15px;">
+                        <i class="fa-solid fa-chart-line" style="color: var(--accent-green); font-size: 24px;"></i>
+                        <span><strong>ROI Trimestral:</strong> Recuperación total de CAPEX logístico en el Q1 de operaciones transfronterizas.</span>
+                    </li>
+                    <li style="display: flex; gap: 15px;">
+                        <i class="fa-solid fa-microchip" style="color: var(--primary); font-size: 24px;"></i>
+                        <span><strong>Agnosticismo de Crudo:</strong> IA que recalibra la planta para procesar la dieta más barata disponible sin comprometer integridad.</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-tag">MEREY 16 ARBITRAGE // FINANCIAL ENGINE</div>
+    </div>
+
+    <!-- SLIDE 3: MITIGACIÓN DE RIESGO (CORREGIDO) -->
+    <div class="slide">
+        <!-- Logo eliminado por instrucción para visibilidad -->
+        <h2 style="font-size: 45px; margin-bottom: 40px;">RIESGO: DE LO POLÍTICO A LO <span class="accent">CONTROLABLE</span></h2>
+        <div class="content-grid" style="grid-template-columns: 1fr 1fr;">
+            <div>
+                <p style="font-size: 20px; margin-bottom: 30px; line-height: 1.4;">El miedo del mercado es nuestra ganancia. El riesgo real no es la política, es el <strong>Infrastructure Decay</strong>. La ineficiencia operativa ajena es nuestra oportunidad de arbitraje.</p>
+                <div style="padding: 20px; background: #fff1f2; border-radius: 12px; border-left: 6px solid var(--danger); margin-bottom: 20px;">
+                    <h4 style="color: #9f1239; font-size: 16px;">AMENAZA: Decaimiento Logístico</h4>
+                    <p style="font-size: 14px;">Retrasos en Jose/Cardón = $1.2M USD de pérdida por retraso (VaR).</p>
+                </div>
+                <div style="padding: 20px; background: #f0fdf4; border-radius: 12px; border-left: 6px solid var(--accent-green);">
+                    <h4 style="color: #166534; font-size: 16px;">SOLUCIÓN: Ingeniería de Control Falcon</h4>
+                    <p style="font-size: 14px;">Control de mantenimiento predictivo y soberanía en la cadena de carga.</p>
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <img src="http://googleusercontent.com/image_collection/image_retrieval/1743210066619058164" 
+                     alt="Logística Petrolera" style="width: 100%; height: 400px; object-fit: cover; border-radius: 16px; box-shadow: 0 20px 40px rgba(0,0,0,0.1);">
+            </div>
+        </div>
+        <div class="footer-tag">RESILIENCIA LOGÍSTICA // VALUE AT RISK</div>
+    </div>
+
+    <!-- SLIDE 4: ARQUITECTURA DIGITAL BRIDGE (HUB & SPOKE) -->
+    <div class="slide">
+        <div class="logo-corner"><img src="https://lh3.googleusercontent.com/u/0/d/1wJB75bNrKI6jSsOxDrtE4Heo9HbAvOJY" alt="Logo"></div>
+        <h2 style="font-size: 40px; margin-bottom: 30px;">Architecture: <span class="accent">The Digital Bridge</span></h2>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+            <div style="background: var(--slate-100); padding: 25px; border-radius: 12px; border-top: 5px solid var(--slate-900);">
+                <h4 style="margin-bottom: 10px;"><i class="fa-solid fa-brain"></i> Centros (Hubs - EE.UU.)</h4>
+                <p style="font-size: 14px;">TX y LA como <strong>Master Nodes</strong>. Entrenamiento de modelos con Petabytes de datos y transferencia de aprendizaje (Federated Learning).</p>
+            </div>
+            <div style="background: var(--slate-100); padding: 25px; border-radius: 12px; border-top: 5px solid var(--primary);">
+                <h4 style="margin-bottom: 10px;"><i class="fa-solid fa-tower-broadcast"></i> Nodos (Spokes - Ven)</h4>
+                <p style="font-size: 14px;">Equipamiento con <strong>Edge AI</strong> e IoT de bajo costo. Decisiones en milisegundos sin dependencia de la nube local inestable.</p>
+            </div>
+        </div>
+        <div style="margin-top: 30px; display: flex; gap: 20px; align-items: center; padding: 20px; background: rgba(14, 165, 233, 0.1); border-radius: 12px;">
+            <i class="fa-solid fa-satellite" style="font-size: 30px; color: var(--primary);"></i>
+            <p style="font-size: 14px;"><strong>Conectividad Satelital Privada:</strong> Sincronización continua de modelos de IA, eliminando el riesgo de inestabilidad en la red eléctrica o internet local.</p>
+        </div>
+        <div class="footer-tag">ML OPS // EDGE COMPUTING // SATELITAL CONNECTIVITY</div>
+    </div>
+
+    <!-- SLIDE 5: TOP 10 REFINERÍAS MAESTRAS (TEXAS) -->
+    <div class="slide">
+        <div class="logo-corner"><img src="https://lh3.googleusercontent.com/u/0/d/1wJB75bNrKI6jSsOxDrtE4Heo9HbAvOJY" alt="Logo"></div>
+        <h2 style="font-size: 35px; margin-bottom: 25px;">Nodos Maestros: <span class="accent">Top 10 Texas Refineries</span></h2>
+        <table class="matrix-table">
+            <thead>
+                <tr>
+                    <th>Refinería / Ciudad</th>
+                    <th>Empresa</th>
+                    <th>Capacidad (BPD)</th>
+                    <th>Synergy Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Galveston Bay / Texas City</td><td>Marathon</td><td>631,000</td><td class="highlight-col">MASTER HUB</td></tr>
+                <tr><td>Port Arthur</td><td>Motiva</td><td>626,000</td><td class="highlight-col">HIGH</td></tr>
+                <tr><td>Beaumont / ExxonMobil</td><td>ExxonMobil</td><td>609,000</td><td class="highlight-col">HIGH</td></tr>
+                <tr><td>Baytown</td><td>ExxonMobil</td><td>564,000</td><td class="highlight-col">MED-HIGH</td></tr>
+                <tr><td>Deer Park (Modelo Transfronterizo)</td><td>Pemex</td><td>312,000</td><td class="highlight-col">CASE STUDY</td></tr>
+                <tr><td>Corpus Christi (FHR)</td><td>Flint Hills</td><td>300,000</td><td class="highlight-col">LOGISTICS</td></tr>
+                <tr><td>Corpus Christi (Valero)</td><td>Valero</td><td>290,000</td><td class="highlight-col">MED</td></tr>
+                <tr><td>Texas City (Valero)</td><td>Valero</td><td>225,000</td><td class="highlight-col">MED</td></tr>
+            </tbody>
+        </table>
+        <div class="footer-tag">TEXAS REFINING POWER // HUB SELECTION</div>
+    </div>
+
+    <!-- SLIDE 6: TOP 5 ESTADOS LÍDERES -->
+    <div class="slide">
+        <div class="logo-corner"><img src="https://lh3.googleusercontent.com/u/0/d/1wJB75bNrKI6jSsOxDrtE4Heo9HbAvOJY" alt="Logo"></div>
+        <h2 style="font-size: 40px; margin-bottom: 30px;">Poder Regional: <span class="accent">Top 5 US States</span></h2>
+        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px;">
+            <div style="background: var(--slate-100); padding: 15px; border-radius: 8px; text-align: center;">
+                <h4 style="font-size: 14px; color: var(--primary);">Texas (TX)</h4>
+                <p style="font-size: 10px; margin-top: 10px;">Centro de mando IA y puerto principal al Caribe.</p>
+            </div>
+            <div style="background: var(--slate-100); padding: 15px; border-radius: 8px; text-align: center;">
+                <h4 style="font-size: 14px; color: var(--primary);">Luisiana (LA)</h4>
+                <p style="font-size: 10px; margin-top: 10px;">Expertos en crudos mixtos y logística fluvial.</p>
+            </div>
+            <div style="background: var(--slate-100); padding: 15px; border-radius: 8px; text-align: center;">
+                <h4 style="font-size: 14px; color: var(--primary);">California (CA)</h4>
+                <p style="font-size: 10px; margin-top: 10px;">Líder en ESG y combustibles de baja emisión.</p>
+            </div>
+            <div style="background: var(--slate-100); padding: 15px; border-radius: 8px; text-align: center;">
+                <h4 style="font-size: 14px; color: var(--primary);">Illinois (IL)</h4>
+                <p style="font-size: 10px; margin-top: 10px;">Modelos de ML para flujo de oleoductos.</p>
+            </div>
+            <div style="background: var(--slate-100); padding: 15px; border-radius: 8px; text-align: center;">
+                <h4 style="font-size: 14px; color: var(--primary);">Washington (WA)</h4>
+                <p style="font-size: 10px; margin-top: 10px;">Eficiencia energética en climas variables.</p>
+            </div>
+        </div>
+        <div class="chart-dea" style="margin-top: 40px;">
+            <div class="bar-dea" style="height: 30%; background: var(--slate-600);"><div class="bar-label">TEXAS (1x)</div></div>
+            <div class="bar-dea" style="height: 100%; background: var(--primary);"><div class="bar-label">VENEZUELA (3.5x ROI)</div></div>
+        </div>
+        <div class="footer-tag">REGIONAL ENERGY ANALYSIS // DEA ROI</div>
+    </div>
+
+    <!-- SLIDE 7: EL CEREBRO IA & PROMPT MAESTRO -->
+    <div class="slide">
+        <div class="logo-corner"><img src="https://lh3.googleusercontent.com/u/0/d/1wJB75bNrKI6jSsOxDrtE4Heo9HbAvOJY" alt="Logo"></div>
+        <h2 style="font-size: 40px; margin-bottom: 30px;">Procesamiento <span class="accent">Inteligente</span></h2>
+        <div class="content-grid">
+            <div class="terminal-prompt">
+                "Identificar 10 refinerías clave en TX. Evaluar 'Cross-Border Synergy Score' para crudo Merey. Correlacionar 'Transition Risk' y 'Sovereign Stability' en VEN Q1-2026. Analizar impacto de licencias OFAC en transferencia de hardware avanzado para Paraguaná."
+            </div>
+            <div>
+                <ul style="list-style: none;">
+                    <li style="margin-bottom: 20px; display: flex; gap: 15px;">
+                        <i class="fa-solid fa-clone" style="color: var(--primary); font-size: 24px;"></i>
+                        <span><strong>Gemelo Digital Universal:</strong> Simulación de procesos de Texas en plantas de Venezuela para optimizar rendimiento.</span>
+                    </li>
+                    <li style="display: flex; gap: 15px;">
+                        <i class="fa-solid fa-wrench" style="color: var(--primary); font-size: 24px;"></i>
+                        <span><strong>Mantenimiento Prescriptivo:</strong> IA que opera la planta suavemente para extender vida útil de repuestos escasos.</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-tag">PREDICTIVE ANALYTICS // MACHINE LEARNING</div>
+    </div>
+
+    <!-- SLIDE 8: MATRIZ DE INTEGRACIÓN TRANSFRONTERIZA -->
+    <div class="slide">
+        <div class="logo-corner"><img src="https://lh3.googleusercontent.com/u/0/d/1wJB75bNrKI6jSsOxDrtE4Heo9HbAvOJY" alt="Logo"></div>
+        <h2 style="font-size: 40px; margin-bottom: 30px;">Matriz de Integración 2026</h2>
+        <table class="matrix-table">
+            <thead>
+                <tr>
+                    <th>Desafío</th>
+                    <th>Solución Falcon (IA/ML)</th>
+                    <th>Impacto en Liderazgo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Calidad del Crudo</td><td>ML ajusta temperatura de destilación automáticamente.</td><td class="highlight-col">Aprovechamiento de materia barata.</td></tr>
+                <tr><td>Talento Humano</td><td>Asistentes LLM traducen manuales y asisten en tiempo real.</td><td class="highlight-col">Cierre de brecha técnica récord.</td></tr>
+                <tr><td>Riesgo Político</td><td>GeoQuant integrado en ERP para ajuste de inventarios.</td><td class="highlight-col">Resiliencia ante cierre de fronteras.</td></tr>
+                <tr><td>Seguridad</td><td>Agentes autónomos (Drones) con visión computacional.</td><td class="highlight-col">Estándar de seguridad unificado.</td></tr>
+            </tbody>
+        </table>
+        <div class="footer-tag">CROSS-BORDER MATRIX // OPERATIONAL EXCELLENCE</div>
+    </div>
+
+    <!-- SLIDE 9: CIERRE Y LLAMADA A LA ACCIÓN -->
+    <div class="slide" style="text-align: center; justify-content: center;">
+        <img src="https://lh3.googleusercontent.com/u/0/d/1wJB75bNrKI6jSsOxDrtE4Heo9HbAvOJY" alt="Logo Final" style="height: 180px; margin-bottom: 40px; display: inline-block;">
+        <h1 style="font-size: 60px; margin-bottom: 20px; color: var(--slate-900);">READY FOR <span class="accent">EXECUTION</span></h1>
+        <p style="font-size: 24px; color: var(--slate-600); max-width: 900px; margin: 0 auto; font-weight: 300;">
+            El liderazgo de 2026 no se compra, se procesa. Falcon Plant Resources: Tecnología que refina el futuro.
+        </p>
+        <div style="margin-top: 50px; display: flex; justify-content: center; gap: 30px;">
+            <div style="padding: 18px 45px; border: 3px solid var(--primary); border-radius: 50px; font-weight: 800; color: var(--primary);">STATUS: GO</div>
+            <div style="padding: 18px 45px; background: var(--primary); border-radius: 50px; font-weight: 800; color: white; box-shadow: 0 10px 20px rgba(14, 165, 233, 0.3);">DEPLOY DIGITAL BRIDGE</div>
+        </div>
+        <div class="footer-tag">FALCON PLANT RESOURCES // LÍDER INDISCUTIBLE 2026</div>
+    </div>
+
+</body>
+</html>

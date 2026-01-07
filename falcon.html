@@ -230,10 +230,6 @@
                     <p style="font-size: 14px;">Control de mantenimiento predictivo y soberanía en la cadena de carga.</p>
                 </div>
             </div>
-            <div style="text-align: center;">
-                <img src="http://googleusercontent.com/image_collection/image_retrieval/1743210066619058164" 
-                     alt="Logística Petrolera" style="width: 100%; height: 400px; object-fit: cover; border-radius: 16px; box-shadow: 0 20px 40px rgba(0,0,0,0.1);">
-            </div>
         </div>
         <div class="footer-tag">RESILIENCIA LOGÍSTICA // VALUE AT RISK</div>
     </div>
@@ -698,31 +694,6 @@
         document.querySelectorAll('.matrix-table').forEach(table => decodeObserver.observe(table));
 
 
-        // 7. Laser Scan (Slide 3)
-        const logImg = document.querySelector('img[alt="Logística Petrolera"]');
-        if (logImg) {
-            // Wrap image in container
-            const wrapper = document.createElement('div');
-            wrapper.classList.add('scan-container');
-            logImg.parentNode.insertBefore(wrapper, logImg);
-            wrapper.appendChild(logImg);
-            
-            // Add laser line
-            const laser = document.createElement('div');
-            laser.classList.add('laser-line');
-            wrapper.appendChild(laser);
-            
-            // Animate
-            anime({
-                targets: laser,
-                top: ['0%', '100%'],
-                opacity: [0.8, 0.8], // Keep visible
-                easing: 'easeInOutSine',
-                duration: 2500,
-                loop: true,
-                direction: 'alternate'
-            });
-        }
 
         // 15. Matrix Rain (Slide 7)
         const terminal = document.querySelector('.terminal-prompt');

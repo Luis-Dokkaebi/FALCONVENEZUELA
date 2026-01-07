@@ -7,7 +7,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;700;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <style>
+        /* Animation Classes */
+        .anim-hidden { opacity: 0; } /* Will be handled by JS */
+
+        @keyframes blink { 50% { opacity: 0; } }
+
         :root {
             --primary: #0ea5e9;
             --primary-dark: #0369a1;
@@ -333,3 +339,223 @@
 
 </body>
 </html>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // Helper to wrap letters for stagger effect
+        const wrapLetters = (el) => {
+            el.innerHTML = el.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+            el.querySelectorAll('.letter').forEach(span => {
+                span.style.display = 'inline-block';
+                span.style.opacity = '0';
+            });
+        };
+
+        // 1. Setup Initial States via JS (to avoid CSS issues if JS fails)
+        const slides = document.querySelectorAll('.slide');
+
+        // Add specific classes for targeting if they don't exist
+        slides.forEach((slide, index) => {
+            slide.dataset.index = index;
+            slide.style.opacity = '0'; // For Slide Entry
+            slide.style.transform = 'translateY(30px)';
+        });
+
+        // 2. Intersection Observer
+        const observerOptions = {
+            threshold: 0.2 // Trigger when 20% of slide is visible
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const slide = entry.target;
+                    const index = parseInt(slide.dataset.index);
+
+                    // Stop observing once animated
+                    observer.unobserve(slide);
+
+                    // 1. General Slide Entry
+                    anime({
+                        targets: slide,
+                        opacity: [0, 1],
+                        translateY: [30, 0],
+                        easing: 'easeOutExpo',
+                        duration: 1000,
+                        delay: 100
+                    });
+
+                    // Trigger specific animations based on slide content/index
+                    animateSlideContent(slide, index);
+                }
+            });
+        }, observerOptions);
+
+        slides.forEach(slide => observer.observe(slide));
+
+        // Main Animation Router
+        function animateSlideContent(slide, index) {
+
+            // 2. Hero Title (Slide 1 - Index 0)
+            if (index === 0) {
+                const title = slide.querySelector('.title-hero');
+                if (title) {
+                    // Wrap letters for animation manually or split by words
+                    // Simple word stagger for robust display
+                    const words = title.innerText.split(' ').map(w => `<span class='word' style='display:inline-block; opacity:0; transform:translateY(-20px)'>${w}&nbsp;</span>`).join('');
+                    title.innerHTML = words;
+
+                    anime({
+                        targets: title.querySelectorAll('.word'),
+                        opacity: [0, 1],
+                        translateY: [-20, 0],
+                        delay: anime.stagger(100, {start: 500}),
+                        easing: 'easeOutElastic(1, .8)'
+                    });
+                }
+            }
+
+            // 10. Logo Float (Global - applies to all logo-corner)
+            const cornerLogo = slide.querySelector('.logo-corner img');
+            if (cornerLogo) {
+                anime({
+                    targets: cornerLogo,
+                    translateY: [-5, 5],
+                    duration: 2000,
+                    loop: true,
+                    direction: 'alternate',
+                    easing: 'easeInOutSine'
+                });
+            }
+
+            // 3. Number Counter (Slide 2)
+            const numberEl = slide.querySelector('.big-number');
+            if (numberEl && numberEl.innerText.includes('$1.8M')) {
+                // Parse the number, animate a dummy object
+                const val = { score: 0 };
+                anime({
+                    targets: val,
+                    score: 1.8,
+                    duration: 2000,
+                    easing: 'linear',
+                    round: 10, // 1 decimal place
+                    update: function() {
+                        numberEl.innerHTML = '$' + val.score.toFixed(1) + 'M';
+                    }
+                });
+            }
+
+            // 4. List Items (Slide 2 & 7)
+            const lists = slide.querySelectorAll('ul li');
+            if (lists.length > 0) {
+                // Set initial state
+                lists.forEach(li => { li.style.opacity = 0; li.style.transform = 'translateX(50px)'; });
+
+                anime({
+                    targets: lists,
+                    opacity: [0, 1],
+                    translateX: [50, 0],
+                    delay: anime.stagger(200, {start: 500}),
+                    easing: 'easeOutQuad'
+                });
+            }
+
+            // 5. Chart Bars (Slide 6)
+            const bars = slide.querySelectorAll('.bar-dea');
+            if (bars.length > 0) {
+                bars.forEach(bar => {
+                    const targetHeight = bar.style.height; // Capture inline style
+                    bar.style.height = '0%'; // Reset to 0
+
+                    anime({
+                        targets: bar,
+                        height: [0, targetHeight],
+                        duration: 1500,
+                        easing: 'easeOutQuart',
+                        delay: anime.stagger(300, {start: 500})
+                    });
+                });
+            }
+
+            // 8. State Cards (Slide 6)
+            const stateCards = slide.querySelectorAll('.slide > div > div > div[style*="background: var(--slate-100)"]');
+            // The selector above is tricky, looking at structure: div.slide -> div (grid) -> div (card)
+            // Let's refine selector based on content: text-align: center inside grid
+            // Better to select the direct children of the grid container in Slide 6
+            if (index === 5) { // Slide 6 is index 5
+                 const gridContainer = slide.querySelector('div[style*="grid-template-columns: repeat(5, 1fr)"]');
+                 if (gridContainer) {
+                     const cards = gridContainer.children;
+                     anime({
+                         targets: cards,
+                         opacity: [0, 1],
+                         scale: [0.8, 1],
+                         delay: anime.stagger(150, {start: 500}),
+                         easing: 'easeOutBack'
+                     });
+                     // Set initial styles for these manually before animation triggers?
+                     // Since we are here, we can set them in anime 'from' values usually,
+                     // but opacity should be 0 before this function runs to avoid flash.
+                     // I will handle this in the "Setup Initial States" section for robust code.
+                 }
+            }
+
+            // 6. Terminal Typewriter (Slide 7)
+            const terminal = slide.querySelector('.terminal-prompt');
+            if (terminal) {
+                const text = terminal.innerText;
+                terminal.innerHTML = ''; // Clear text
+                terminal.style.opacity = 1; // Make container visible
+
+                // Create a cursor
+                const cursor = document.createElement('span');
+                cursor.innerText = '|';
+                cursor.style.animation = 'blink 1s infinite';
+                terminal.appendChild(cursor);
+
+                let i = 0;
+                const typeInterval = setInterval(() => {
+                    if (i < text.length) {
+                        cursor.before(text.charAt(i));
+                        i++;
+                    } else {
+                        clearInterval(typeInterval);
+                        cursor.remove();
+                    }
+                }, 30); // Speed
+            }
+
+            // 7. Table Rows (Slide 5 & 8)
+            const tableRows = slide.querySelectorAll('.matrix-table tbody tr');
+            if (tableRows.length > 0) {
+                // Initial state
+                tableRows.forEach(row => { row.style.opacity = 0; row.style.transform = 'translateY(10px)'; });
+
+                anime({
+                    targets: tableRows,
+                    opacity: [0, 1],
+                    translateY: [10, 0],
+                    delay: anime.stagger(100, {start: 500}),
+                    easing: 'easeOutQuad'
+                });
+            }
+
+            // 9. Pulse Button (Slide 9)
+            // Look for the "DEPLOY DIGITAL BRIDGE" div
+            if (index === 8) { // Last slide
+                const button = Array.from(slide.querySelectorAll('div')).find(el => el.textContent.includes('DEPLOY DIGITAL BRIDGE'));
+                if (button) {
+                    anime({
+                        targets: button,
+                        scale: [1, 1.05],
+                        boxShadow: ['0 10px 20px rgba(14, 165, 233, 0.3)', '0 20px 40px rgba(14, 165, 233, 0.6)'],
+                        duration: 1000,
+                        loop: true,
+                        direction: 'alternate',
+                        easing: 'easeInOutSine'
+                    });
+                }
+            }
+        }
+    });
+</script>
